@@ -22,7 +22,7 @@ class MenuController:
 
                 sexo = input("""
                 \n\tDigite o sexo do usuário(M/F): """)
-                maiusculo = sexo.upper()
+                sexo_cap = sexo.upper()
 
                 try:
                     idade = input("""
@@ -48,7 +48,7 @@ class MenuController:
 
                 
                 try:
-                    sql = f'insert into Usuarios (Nome, Sexo, Idade) values ("{nome_cap}", "{maiusculo}", "{idade1}")'
+                    sql = f'insert into Usuarios (Nome, Sexo, Idade) values ("{nome_cap}", "{sexo_cap}", "{idade1}")'
                     cursor.execute(sql)
                     conn.commit()
                     print("""
@@ -91,11 +91,27 @@ class MenuController:
 
         elif opcao == 4:
             
+            dados = []
             usuarios()
 
-            while True:
+            sql = f'select * from usuarios'
+            cursor.execute(sql)
+            resultado = cursor.fetchall()
 
-                escolha = int(input("Digite o id de quem deseja alterar: "))
+            for linha in resultado:
+                dados.append(linha[1])
+            
+
+            while True:
+                while True:
+                    escolha = input("Digite o nome de quem deseja alterar: ")
+                    escolha_low = escolha.lower()
+
+                    if escolha in dados:
+                        break
+                    
+                    else:
+                        print('Nome inválido')
 
                 alterar = input('O que você deseja alterar?: ')
                 alterar_lower = alterar.lower()
@@ -111,7 +127,7 @@ class MenuController:
 
                     else:
                         
-                        sql = f'update usuarios set Nome = "{nome_cap}" where Id = "{escolha}"'
+                        sql = f'update usuarios set Nome = "{nome_cap}" where Nome = "{escolha}"'
                         cursor.execute(sql)
                         conn.commit()
                         print('Usuário alterado com sucesso')
@@ -127,7 +143,7 @@ class MenuController:
 
                     else:
 
-                        sql = f'update usuarios set Sexo = "{sexo_cap}" where Id = "{escolha}"'
+                        sql = f'update usuarios set Sexo = "{sexo_cap}" where Nome = "{escolha}"'
                         cursor.execute(sql)
                         conn.commit()
                         print('Usuário alterado com sucesso')
@@ -138,7 +154,7 @@ class MenuController:
                     try:
                         idade = int(input('Digite a nova idade do usuário: '))
 
-                        sql = f'update usuarios set Idade = "{idade}" where Id = "{escolha}"'
+                        sql = f'update usuarios set Idade = "{idade}" where Nome = "{escolha}"'
                         cursor.execute(sql)
                         conn.commit()
                         print('Usuário alterado com sucesso')
@@ -154,9 +170,9 @@ class MenuController:
 
             usuarios()
 
-            escolha = input("Digite o id do usuário que deseja excluir: ")
+            escolha = input("Digite o nome do usuário que deseja excluir: ")
 
-            sql = f'delete from usuarios where Id = "{escolha}"'
+            sql = f'delete from usuarios where Nome = "{escolha}"'
             cursor.execute(sql)
             conn.commit()
 
