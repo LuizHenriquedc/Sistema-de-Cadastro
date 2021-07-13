@@ -112,9 +112,16 @@ class MenuController:
                     
                     else:
                         print('Nome inválido')
+                while True:
 
-                alterar = input('O que você deseja alterar?: ')
-                alterar_lower = alterar.lower()
+                    alterar = input('O que você deseja alterar?: ')
+                    alterar_lower = alterar.lower()
+
+                    if alterar != 'nome' and alterar != 'sexo' and alterar != 'idade':
+                        print("Opção inválida")
+                    
+                    else:
+                        break
                 
 
                 if alterar_lower == 'nome':
