@@ -1,5 +1,5 @@
 from View.menuView import *
 
-teste = MenuView()
+iniciar = MenuView()
 
-teste.menu()
+iniciar.menu()
