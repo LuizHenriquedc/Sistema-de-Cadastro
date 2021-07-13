@@ -14,4 +14,4 @@ def usuarios():
                     \n\tNome: {linhas[1]}
                     \n\tSexo: {linhas[2]}
                     \n\tIdade: {linhas[3]}""")
-                    print('\n', 40 * '=')
+                    print('\n', 71 * '=')

@@ -106,7 +106,7 @@ class MenuController:
                     
             
                     for linha in resultado:
-                        print('\n', 40 * '=')
+                        print('\n', 10 * '=', 'Usuário pesquisado', 10 * '=')
                         print(f"""
                 Nome: {linha[0]}
                 Sexo: {linha[1]}
@@ -116,156 +116,199 @@ class MenuController:
                             
 
         elif opcao == 3:
+            while True:
+                identificacao = []
+
+                sql = f'select * from usuarios'
+                cursor.execute(sql)
+                resultado = cursor.fetchall()
+
+                for linha in resultado:
+                    identificacao.append(linha[0])
+
+                if len(identificacao) == 0:
+                    print("""
+                    \n\tNão há usuários cadastrados para mostrar """)
+                    break
+                else:
+                    usuarios()
+                    break
+
             
-            usuarios()
 
         elif opcao == 4:
-            
-            identificacao = []
-            usuarios()
-
-            sql = f'select * from usuarios'
-            cursor.execute(sql)
-            resultado = cursor.fetchall()
-
-            for linha in resultado:
-                identificacao.append(linha[0])
-            
-            
-
             while True:
-                while True:
+                identificacao = []
+
+                sql = f'select * from usuarios'
+                cursor.execute(sql)
+                resultado = cursor.fetchall()
+
+                for linha in resultado:
+                    identificacao.append(linha[0])
+   
+                if len(identificacao) == 0:
+                    print("""
+                    \n\tNão há usuários cadastrados""")
+                    break
+                    
+                else:
+                    
                     try:
+                        usuarios()
+
                         escolha = int(input("""
                     \n\tDigite o ID de quem deseja alterar: """))
-
+                        
                         if escolha in identificacao:
                             break
                         
                         else:
                             print("""
                     \n\tID inválido""")
+                            
 
                     except ValueError:
 
                         print("""
                 \n\tDigito inválido """)
-
-                while True:
-
-                    alterar = input("""
-                \n\tO que você deseja alterar?: """)
-                    
-
-                    if alterar != 'nome' and alterar != 'Nome' and alterar != 'sexo' and alterar != 'Sexo' and alterar != 'idade' and alterar != 'Idade':
-                        print("""
-                \n\tOpção inválida""")
-                    
-                    else:
-                        break
-                
-                while True:
-                    if alterar == 'nome' or alterar == 'Nome':
-                        nome = input("""
-                    \n\tDigite o novo nome: """)
-                        nome_cap = nome.capitalize()
-                        if nome == '' or nome.isalpha() == False:
-                            
-                            print("""
-                    \n\tNome inválido, tente novamente! """)
-
-                        else:
-                            
-                            sql = f'update usuarios set Nome = "{nome_cap}" where Id = "{escolha}"'
-                            cursor.execute(sql)
-                            conn.commit()
-                            print("""
-                    \n\tUsuário alterado com sucesso""")
-                            time.sleep(2)
-                            usuarios()
-                            break
                         
-                    else:
-                        break
 
-                while True:
-                    if alterar == 'sexo' or alterar == 'Sexo':
-                        sexo = input("""
-                    \n\tDigite o novo sexo do usuário(M/F): """)
-                        sexo_cap = sexo.capitalize()
-                        
-                        if sexo == '' or sexo.isnumeric() == False and sexo == 'm' and sexo == 'f':
-                            print("""
-                    \n\tSexo inválido, tente novamente! """)
-
-                        else:
-
-                            sql = f'update usuarios set Sexo = "{sexo_cap}" where Id = "{escolha}"'
-                            cursor.execute(sql)
-                            conn.commit()
-                            print("""
-                    \n\tUsuário alterado com sucesso""")
-                            time.sleep(2)
-                            usuarios()
-                            break
-                            
-                    else:
-                        break
-
-                while True:
-                    if alterar == 'idade' or alterar == 'Idade':
-
-                        try:
-                            idade = int(input("""
-                    \n\tDigite a nova idade do usuário: """))
-
-                            sql = f'update usuarios set Idade = "{idade}" where Id = "{escolha}"'
-                            cursor.execute(sql)
-                            conn.commit()
-                            print("""
-                    \n\tUsuário alterado com sucesso""")
-                            time.sleep(2)
-                            usuarios()
-                            break
-                            
-                        
-                        except ValueError:
-                            print("""
-                    \n\tIdade inválida, tente novamente! """)
-                    
-                    else:
-                        break
-                break
-
-        elif opcao == 5:
-            
-            nomes = []
-            usuarios()
-
-            sql = f'select * from usuarios'
-            cursor.execute(sql)
-            resultado = cursor.fetchall()
-            
-            for linha in resultado:
-                nomes.append(linha[1])
-        
             while True:
 
-                escolha = input("""
-                \n\tDigite o nome do usuário que deseja excluir: """)
-                    
-                if escolha in nomes:
-
-                    sql = f'delete from usuarios where Nome = "{escolha}"'
-                    cursor.execute(sql)
-                    conn.commit()
+                alterar = input("""
+            \n\tO que você deseja alterar?: """)
                 
+
+                if alterar != 'nome' and alterar != 'Nome' and alterar != 'sexo' and alterar != 'Sexo' and alterar != 'idade' and alterar != 'Idade':
                     print("""
-                \n\tUsuário exluido com sucesso""")
-                    time.sleep(2)
+            \n\tOpção inválida""")
+                    
+                
+                else:
+                    break
+                    
+            while True:
+                if alterar == 'nome' or alterar == 'Nome':
+                    nome = input("""
+                \n\tDigite o novo nome: """)
+                    nome_cap = nome.capitalize()
+
+                    if nome == '' or nome.isalpha() == False:
+                        
+                        print("""
+                \n\tNome inválido, tente novamente! """)
+
+                    else:
+                        
+                        sql = f'update usuarios set Nome = "{nome_cap}" where Id = "{escolha}"'
+                        cursor.execute(sql)
+                        conn.commit()
+                        print("""
+                \n\tUsuário alterado com sucesso""")
+                        time.sleep(2)
+                        usuarios()
+                        pass
+                    
+                else:
+                    break
+
+            while True:
+                if alterar == 'sexo' or alterar == 'Sexo':
+                    sexo = input("""
+                \n\tDigite o novo sexo do usuário(M/F): """)
+                    sexo_cap = sexo.capitalize()
+                    
+                    if sexo == '' or sexo.isnumeric() == False and sexo == 'm' and sexo == 'f':
+                        print("""
+                \n\tSexo inválido, tente novamente! """)
+
+                    else:
+
+                        sql = f'update usuarios set Sexo = "{sexo_cap}" where Id = "{escolha}"'
+                        cursor.execute(sql)
+                        conn.commit()
+                        print("""
+                \n\tUsuário alterado com sucesso""")
+                        time.sleep(2)
+                        usuarios()
+                        break
+                        
+                else:
+                    break
+
+            while True:
+                if alterar == 'idade' or alterar == 'Idade':
+
+                    try:
+                        idade = int(input("""
+                \n\tDigite a nova idade do usuário: """))
+
+                        sql = f'update usuarios set Idade = "{idade}" where Id = "{escolha}"'
+                        cursor.execute(sql)
+                        conn.commit()
+                        print("""
+                \n\tUsuário alterado com sucesso""")
+                        time.sleep(2)
+                        usuarios()
+                        break
+                        
+                    
+                    except ValueError:
+                        print("""
+                \n\tIdade inválida, tente novamente! """)
+                
+                else:
+                    break
+                break
+                
+
+        elif opcao == 5:
+
+            while True:
+                identificacao = []
+
+                sql = f'select * from usuarios'
+                cursor.execute(sql)
+                resultado = cursor.fetchall()
+                
+                for linha in resultado:
+                    identificacao.append(linha[0])
+
+                if len(identificacao) == 0:
+                    print("""
+                    \n\tNão há usuários cadastrados""")
+                    break
+                
+                else:
+                    pass
+            
+                while True:
 
                     usuarios()
-                    break
-                else:
-                    print("""
-                \n\tUsuário inválido""")
+
+                    try:
+                        escolha = int(input("""
+                        \n\tDigite o ID do usuário que deseja excluir: """))
+
+                        if escolha in identificacao:
+
+                            sql = f'delete from usuarios where Id = "{escolha}"'
+                            cursor.execute(sql)
+                            conn.commit()
+        
+                            print("""
+                        \n\tUsuário exluido com sucesso""")
+                            time.sleep(2)
+
+                            usuarios()
+                            break
+                            
+                        else:
+                            print("""
+                        \n\tUsuário inválido""")
+
+                    except ValueError:
+
+                        print("""
+                    \n\tID inválido""")
