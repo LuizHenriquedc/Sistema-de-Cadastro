@@ -260,9 +260,6 @@ class MenuController:
                     break
 
                 else:
-                    pass
-
-                while True:
 
                     usuarios()
 
@@ -270,8 +267,12 @@ class MenuController:
                         escolha = int(input("""
                         \n\tDigite o ID do usuário que deseja excluir: """))
 
-                        if escolha in identificacao:
+                        if escolha not in identificacao:
+                            print("""
+                        \n\tUsuário inválido""")
+                            continue
 
+                        else:
                             sql = f'delete from usuarios where Id = "{escolha}"'
                             cursor.execute(sql)
                             conn.commit()
@@ -282,10 +283,6 @@ class MenuController:
 
                             usuarios()
                             break
-
-                        else:
-                            print("""
-                        \n\tUsuário inválido""")
 
                     except ValueError:
 
