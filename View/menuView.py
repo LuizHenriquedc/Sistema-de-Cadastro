@@ -1,5 +1,6 @@
 from Model.menuModel import *
 
+
 class MenuView:
 
     def menu(self):
@@ -26,4 +27,3 @@ class MenuView:
 
             except ValueError as e:
                 pass
-                
