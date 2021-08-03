@@ -1,10 +1,8 @@
 from os import error
 import time
-from dns.rdatatype import NULL
-
 from mysql.connector.cursor import SQL_COMMENT
 from Conexão.conector import *
-from mostrar_todos import *
+from mostrartodos.mostrar_todos import *
 
 class MenuController:
     
@@ -154,20 +152,53 @@ class MenuController:
                 else:
 
                     usuarios()
-                    try:
-                        escolha = int(input("""
-                        \n\tDigite o ID do usuário que deseja alterar: """))
-                        
-                    except ValueError:
+                    
+                    escolha = int(input("""
+                    \n\tDigite o ID do usuário que deseja alterar ou pressione ENTER para voltar ao menu: """))
+                    
+                    
+                    if escolha not in identificacao:
                         print("ID inválido")
+                        continue
+                    if escolha == '':
+                        print("ID inválido")
+                        continue
 
+                    else:
+                        pass
                 
-                    if escolha in identificacao:
-                        alterar = input('O que você deseja alterar?: ')
+                    while True:
+                        alterar = input("""
+                    \n\tO que você deseja alterar?: """)
 
+                        if alterar == '':
+                            print("""
+                    \n\tOpção inválida""")
+                            continue
+                        
+                        elif alterar != 'Nome' and alterar != 'nome' and alterar != 'Sexo' and alterar != 'sexo' and alterar != 'Idade' and alterar != 'idade':
+                            print("""
+                    \n\tOpção inválida""")
+                            continue
+
+                        else:
+                            break
+                    
+                    
+                    while True:
                         if alterar == 'Nome' or alterar == 'nome':
-                            nome = input("Digite o novo nome: ")
+                            nome = input("""
+                        \n\tDigite o novo nome: """)
                             nome_cap = nome.capitalize()
+                    
+                            if nome == '':
+                                print("""
+                    \n\tNome em branco, digite novamente! """)
+                                continue
+
+                            else:
+                                pass
+
 
                             sql = f'update usuarios set Nome = "{nome_cap}" where Id = "{escolha}"'
                             cursor.execute(sql)
@@ -182,6 +213,22 @@ class MenuController:
                             sexo = input("""
                         \n\tDigite o novo sexo do usuário(M/F): """)
                             sexo_cap = sexo.capitalize()
+
+                            if sexo == '':
+                                print("""
+                    \n\tSexo em branco, digite novamente! """)
+                                continue
+
+                            elif sexo != 'M' and sexo != 'm' and sexo != 'F' and sexo != 'f':
+                                print("""
+                    \n\tSexo inválido, digite novamente! """)
+                                continue
+
+                            else:
+                                pass
+
+
+
 
                             sql = f'update usuarios set Sexo = "{sexo_cap}" where Id = "{escolha}"'
                             cursor.execute(sql)
@@ -206,20 +253,12 @@ class MenuController:
                                 time.sleep(2)
                                 usuarios()
                                 break
+                                
 
                             except ValueError:
                                 print("""
                         \n\tIdade inválida, tente novamente! """)
-                    
-                    else:
-                        print("""
-                        \n\tID inválido""")
-                    
-                    
-
-                    
-
-                    
+     
 
         elif opcao == 5:
 

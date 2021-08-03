@@ -25,6 +25,5 @@ class MenuView:
                 opcao_cadastro = model.cadastro()
 
             except ValueError as e:
-                print("""
-        \n\tOpção inválida""")   
+                pass
                 
