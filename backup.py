@@ -1,6 +1,5 @@
 from os import error
 import time
-from dns.rdatatype import NULL
 
 from mysql.connector.cursor import SQL_COMMENT
 from Conexão.conector import *
@@ -57,7 +56,7 @@ class MenuController:
 
                 
                 try:
-                    sql = f'insert into usuarios (Nome, Sexo, Idade) values ("{nome_cap}", "{sexo_cap}", "{idade1}")'
+                    sql = f'insert into Usuarios (Nome, Sexo, Idade) values ("{nome_cap}", "{sexo_cap}", "{idade1}")'
                     cursor.execute(sql)
                     conn.commit()
                     print("""
@@ -135,6 +134,8 @@ class MenuController:
                     usuarios()
                     break
 
+            
+
         elif opcao == 4:
             while True:
                 identificacao = []
@@ -152,74 +153,115 @@ class MenuController:
                     break
                     
                 else:
+                    pass    
 
-                    usuarios()
+                while True:
+
                     try:
+                        usuarios()
+
                         escolha = int(input("""
-                        \n\tDigite o ID do usuário que deseja alterar: """))
+                    \n\tDigite o ID de quem deseja alterar: """))
                         
+                        if escolha in identificacao:
+                            break
+                        
+                        else:
+                            print("""
+                    \n\tID inválido""")
+                            
+
                     except ValueError:
-                        print("ID inválido")
 
-                
-                    if escolha in identificacao:
-                        alterar = input('O que você deseja alterar?: ')
+                        print("""
+                \n\tDigito inválido """)
 
-                        if alterar == 'Nome' or alterar == 'nome':
-                            nome = input("Digite o novo nome: ")
-                            nome_cap = nome.capitalize()
+                    alterar = input("""
+                \n\tO que você deseja alterar?: """)
+                    
 
+                    if alterar != 'nome' and alterar != 'Nome' and alterar != 'sexo' and alterar != 'Sexo' and alterar != 'idade' and alterar != 'Idade':
+                        print("""
+                \n\tOpção inválida""")
+                        
+                    
+                    else:
+                        break
+                        
+                while True:
+                    if alterar == 'nome' or alterar == 'Nome':
+                        nome = input("""
+                    \n\tDigite o novo nome: """)
+                        nome_cap = nome.capitalize()
+
+                        if nome == '' or nome.isalpha() == False:
+                            
+                            print("""
+                    \n\tNome inválido, tente novamente! """)
+
+                        else:
+                            
                             sql = f'update usuarios set Nome = "{nome_cap}" where Id = "{escolha}"'
                             cursor.execute(sql)
                             conn.commit()
                             print("""
-                        \n\tUsuário alterado com sucesso""")
+                    \n\tUsuário alterado com sucesso""")
                             time.sleep(2)
                             usuarios()
-                            break
+                            pass
+                        
+                    else:
+                        break
 
-                        elif alterar == 'Sexo' or alterar == 'sexo':
-                            sexo = input("""
-                        \n\tDigite o novo sexo do usuário(M/F): """)
-                            sexo_cap = sexo.capitalize()
+                while True:
+                    if alterar == 'sexo' or alterar == 'Sexo':
+                        sexo = input("""
+                    \n\tDigite o novo sexo do usuário(M/F): """)
+                        sexo_cap = sexo.capitalize()
+                        
+                        if sexo == '' or sexo.isnumeric() == False and sexo == 'm' and sexo == 'f':
+                            print("""
+                    \n\tSexo inválido, tente novamente! """)
+
+                        else:
 
                             sql = f'update usuarios set Sexo = "{sexo_cap}" where Id = "{escolha}"'
                             cursor.execute(sql)
                             conn.commit()
                             print("""
-                        \n\tUsuário alterado com sucesso""")
+                    \n\tUsuário alterado com sucesso""")
                             time.sleep(2)
                             usuarios()
                             break
+                            
+                    else:
+                        break
+
+                while True:
+                    if alterar == 'idade' or alterar == 'Idade':
+
+                        try:
+                            idade = int(input("""
+                    \n\tDigite a nova idade do usuário: """))
+
+                            sql = f'update usuarios set Idade = "{idade}" where Id = "{escolha}"'
+                            cursor.execute(sql)
+                            conn.commit()
+                            print("""
+                    \n\tUsuário alterado com sucesso""")
+                            time.sleep(2)
+                            usuarios()
+                            break
+                            
                         
-                        elif alterar == 'Idade' or alterar == 'idade':
-
-                            try:
-                                idade = int(input("""
-                        \n\tDigite a nova idade do usuário: """))
-
-                                sql = f'update usuarios set Idade = "{idade}" where Id = "{escolha}"'
-                                cursor.execute(sql)
-                                conn.commit()
-                                print("""
-                        \n\tUsuário alterado com sucesso""")
-                                time.sleep(2)
-                                usuarios()
-                                break
-
-                            except ValueError:
-                                print("""
-                        \n\tIdade inválida, tente novamente! """)
+                        except ValueError:
+                            print("""
+                    \n\tIdade inválida, tente novamente! """)
                     
                     else:
-                        print("""
-                        \n\tID inválido""")
-                    
-                    
-
-                    
-
-                    
+                        break
+                    break
+                
 
         elif opcao == 5:
 
